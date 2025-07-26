@@ -229,7 +229,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            flex: 2,
+                            flex: 4,
                             child: Text(
                               'Description',
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -254,23 +254,25 @@ class InvoicePreviewScreen extends StatelessWidget {
                             ),
                           ),
                           Expanded(
+                            flex: 2,
                             child: Text(
                               'Rate',
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.right,
                             ),
                           ),
                           Expanded(
+                            flex: 2,
                             child: Text(
                               'Amt.',
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.right,
                             ),
                           ),
                         ],
@@ -288,22 +290,25 @@ class InvoicePreviewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            flex: 1,
+                            flex: 4,
                             child: Text(item.description),
                           ),
                           Expanded(
+                            flex: 1,
                             child: Text(
                               item.quantity.toString(),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.left,
                             ),
                           ),
                           Expanded(
+                            flex: 2,
                             child: Text(
                               currencyFormat.format(item.unitPrice),
                               textAlign: TextAlign.right,
                             ),
                           ),
                           Expanded(
+                            flex: 2,
                             child: Text(
                               currencyFormat.format(item.totalPrice),
                               textAlign: TextAlign.right,
