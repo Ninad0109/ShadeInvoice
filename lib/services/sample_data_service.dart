@@ -1,7 +1,7 @@
-import 'package:billsnap/models/client_model.dart';
-import 'package:billsnap/models/invoice_model.dart';
-import 'package:billsnap/models/invoice_item_model.dart';
-import 'package:billsnap/services/invoice_service.dart';
+import 'package:shadeinvoice/models/client_model.dart';
+import 'package:shadeinvoice/models/invoice_model.dart';
+import 'package:shadeinvoice/models/invoice_item_model.dart';
+import 'package:shadeinvoice/services/invoice_service.dart';
 
 class SampleDataService {
   static Future<void> addSampleData(InvoiceService invoiceService) async {

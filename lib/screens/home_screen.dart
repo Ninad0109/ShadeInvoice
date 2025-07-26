@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:billsnap/models/invoice_model.dart';
-import 'package:billsnap/services/invoice_service.dart';
-import 'package:billsnap/screens/create_invoice_screen.dart';
-import 'package:billsnap/screens/invoice_preview_screen.dart';
-import 'package:billsnap/screens/client_management_screen.dart';
-import 'package:billsnap/screens/settings_screen.dart';
-import 'package:billsnap/widgets/invoice_card.dart';
+import 'package:shadeinvoice/models/invoice_model.dart';
+import 'package:shadeinvoice/services/invoice_service.dart';
+import 'package:shadeinvoice/screens/create_invoice_screen.dart';
+import 'package:shadeinvoice/screens/invoice_preview_screen.dart';
+import 'package:shadeinvoice/screens/client_management_screen.dart';
+import 'package:shadeinvoice/screens/settings_screen.dart';
+import 'package:shadeinvoice/widgets/invoice_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,7 +81,7 @@ class DashboardTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BillSnap"),
+        title: const Text("ShadeInvoice"),
         centerTitle: true,
       ),
       body: Consumer<InvoiceService>(

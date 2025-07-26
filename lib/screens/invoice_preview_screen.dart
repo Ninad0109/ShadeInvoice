@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:billsnap/models/invoice_model.dart';
-import 'package:billsnap/services/invoice_service.dart';
-import 'package:billsnap/services/export_service.dart';
+import 'package:shadeinvoice/models/invoice_model.dart';
+import 'package:shadeinvoice/services/invoice_service.dart';
+import 'package:shadeinvoice/services/export_service.dart';
 
 class InvoicePreviewScreen extends StatelessWidget {
   final Invoice invoice;

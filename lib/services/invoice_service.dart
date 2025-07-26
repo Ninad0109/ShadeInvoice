@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:billsnap/models/invoice_model.dart';
-import 'package:billsnap/models/client_model.dart';
-import 'package:billsnap/services/local_storage_service.dart';
+import 'package:shadeinvoice/models/invoice_model.dart';
+import 'package:shadeinvoice/models/client_model.dart';
+import 'package:shadeinvoice/services/local_storage_service.dart';
 
 class InvoiceService extends ChangeNotifier {
   List<Invoice> _invoices = [];

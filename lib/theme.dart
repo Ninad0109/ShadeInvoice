@@ -179,6 +179,11 @@ ThemeData get lightTheme => ThemeData(
       fontWeight: FontWeight.normal,
     ),
   ),
+    navigationBarTheme: NavigationBarThemeData(
+        indicatorColor: Color(0xFF2E7D32),
+        backgroundColor: LightModeColors.lightSurface, // Example background for the bar
+
+    )
 );
 
 ThemeData get darkTheme => ThemeData(

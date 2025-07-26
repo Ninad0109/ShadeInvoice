@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:billsnap/models/invoice_model.dart';
-import 'package:billsnap/models/client_model.dart';
+import 'package:shadeinvoice/models/invoice_model.dart';
+import 'package:shadeinvoice/models/client_model.dart';
 
 class LocalStorageService {
   static const String _invoicesKey = 'invoices';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:billsnap/models/invoice_model.dart';
+import 'package:shadeinvoice/models/invoice_model.dart';
 
 class InvoiceCard extends StatelessWidget {
   final Invoice invoice;

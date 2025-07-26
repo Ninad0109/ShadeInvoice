@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:billsnap/theme.dart';
-import 'package:billsnap/services/invoice_service.dart';
-import 'package:billsnap/screens/home_screen.dart';
+import 'package:shadeinvoice/theme.dart';
+import 'package:shadeinvoice/services/invoice_service.dart';
+import 'package:shadeinvoice/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
