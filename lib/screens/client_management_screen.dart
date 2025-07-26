@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanderhome/models/client_model.dart';
-import 'package:wanderhome/services/invoice_service.dart';
-import 'package:wanderhome/widgets/client_card.dart';
+import 'package:billsnap/models/client_model.dart';
+import 'package:billsnap/services/invoice_service.dart';
+import 'package:billsnap/widgets/client_card.dart';
 
 class ClientManagementScreen extends StatefulWidget {
   const ClientManagementScreen({super.key});

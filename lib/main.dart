@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanderhome/theme.dart';
-import 'package:wanderhome/services/invoice_service.dart';
-import 'package:wanderhome/screens/home_screen.dart';
+import 'package:billsnap/theme.dart';
+import 'package:billsnap/services/invoice_service.dart';
+import 'package:billsnap/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => InvoiceService(),
       child: MaterialApp(
-        title: 'WanderHome Invoice Generator',
+        title: 'BillSnap',
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         darkTheme: darkTheme,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:wanderhome/models/invoice_model.dart';
-import 'package:wanderhome/models/client_model.dart';
-import 'package:wanderhome/models/invoice_item_model.dart';
-import 'package:wanderhome/services/invoice_service.dart';
-import 'package:wanderhome/screens/invoice_preview_screen.dart';
+import 'package:billsnap/models/invoice_model.dart';
+import 'package:billsnap/models/client_model.dart';
+import 'package:billsnap/models/invoice_item_model.dart';
+import 'package:billsnap/services/invoice_service.dart';
+import 'package:billsnap/screens/invoice_preview_screen.dart';
 
 class CreateInvoiceScreen extends StatefulWidget {
   const CreateInvoiceScreen({super.key});

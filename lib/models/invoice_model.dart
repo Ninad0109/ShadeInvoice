@@ -1,5 +1,5 @@
-import 'package:wanderhome/models/client_model.dart';
-import 'package:wanderhome/models/invoice_item_model.dart';
+import 'package:billsnap/models/client_model.dart';
+import 'package:billsnap/models/invoice_item_model.dart';
 
 enum InvoiceStatus { draft, sent, paid, overdue }
 

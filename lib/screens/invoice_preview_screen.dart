@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:wanderhome/models/invoice_model.dart';
-import 'package:wanderhome/services/invoice_service.dart';
-import 'package:wanderhome/services/export_service.dart';
+import 'package:billsnap/models/invoice_model.dart';
+import 'package:billsnap/services/invoice_service.dart';
+import 'package:billsnap/services/export_service.dart';
 
 class InvoicePreviewScreen extends StatelessWidget {
   final Invoice invoice;
@@ -94,47 +94,61 @@ class InvoicePreviewScreen extends StatelessWidget {
               // Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start, // Good to align items at the top
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'INVOICE',
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: _getStatusColor(invoice.status, context),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Text(
-                          _getStatusText(invoice.status),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                  // Left Column
+                  Expanded( // <--- Wrap with Expanded
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'INVOICE',
+                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        invoice.invoiceNumber,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(height: 8),
+                        Container(
+                          // ... status badge ...
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: _getStatusColor(invoice.status, context),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            _getStatusText(invoice.status),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16), // Add some spacing between the columns if needed
+                  // Right Column
+                  Expanded( // <--- Wrap with Expanded
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 3), // Add some top padding
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            invoice.invoiceNumber,
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18
+                            ),
+                            textAlign: TextAlign.end, // Helps if invoice number wraps
+                          ),
+                          const SizedBox(height: 4),
+                          Text('Date: ${dateFormat.format(invoice.invoiceDate)}'),
+                          Text('Due: ${dateFormat.format(invoice.dueDate)}'),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text('Date: ${dateFormat.format(invoice.invoiceDate)}'),
-                      Text('Due: ${dateFormat.format(invoice.dueDate)}'),
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -215,7 +229,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            flex: 3,
+                            flex: 2,
                             child: Text(
                               'Description',
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -225,13 +239,18 @@ class InvoicePreviewScreen extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: Text(
-                              'Qty',
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            flex: 1, // Or your preferred flex
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft, // Ensure it aligns right after scaling
+                              child: Text(
+                                'Qty',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                                // textAlign: TextAlign.right, // textAlign might not be needed if FittedBox handles alignment
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ),
                           Expanded(
@@ -241,17 +260,17 @@ class InvoicePreviewScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           Expanded(
                             child: Text(
-                              'Amount',
+                              'Amt.',
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ],
@@ -269,7 +288,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            flex: 3,
+                            flex: 1,
                             child: Text(item.description),
                           ),
                           Expanded(

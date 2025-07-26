@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:wanderhome/models/invoice_model.dart';
-import 'package:wanderhome/services/invoice_service.dart';
-import 'package:wanderhome/screens/create_invoice_screen.dart';
-import 'package:wanderhome/screens/invoice_preview_screen.dart';
-import 'package:wanderhome/screens/client_management_screen.dart';
-import 'package:wanderhome/screens/settings_screen.dart';
-import 'package:wanderhome/widgets/invoice_card.dart';
+import 'package:billsnap/models/invoice_model.dart';
+import 'package:billsnap/services/invoice_service.dart';
+import 'package:billsnap/screens/create_invoice_screen.dart';
+import 'package:billsnap/screens/invoice_preview_screen.dart';
+import 'package:billsnap/screens/client_management_screen.dart';
+import 'package:billsnap/screens/settings_screen.dart';
+import 'package:billsnap/widgets/invoice_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -104,7 +104,7 @@ class DashboardTab extends StatelessWidget {
                   crossAxisCount: 2,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  childAspectRatio: 1.5,
+                  childAspectRatio: 1.1,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                   children: [
@@ -184,8 +184,8 @@ class DashboardTab extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(
-      String title, String value, IconData icon, BuildContext context) {
+  Widget _buildStatCard(String title, String value, IconData icon,
+      BuildContext context) {
     return Card(
       elevation: 2,
       child: Padding(
@@ -193,20 +193,38 @@ class DashboardTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 32, color: Theme.of(context).colorScheme.primary),
+            Icon(icon, size: 32, color: Theme
+                .of(context)
+                .colorScheme
+                .primary),
             const SizedBox(height: 8),
-            Text(value,
-                style: Theme.of(context)
+            FittedBox( // Wrap the value Text
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                style: Theme
+                    .of(context)
                     .textTheme
                     .headlineMedium
-                    ?.copyWith(fontWeight: FontWeight.bold)),
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
             const SizedBox(height: 4),
-            Text(title,
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center),
+            FittedBox( // Wrap the title Text
+              fit: BoxFit.scaleDown,
+              child: Text(
+                title,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodySmall,
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-}
+  }
+

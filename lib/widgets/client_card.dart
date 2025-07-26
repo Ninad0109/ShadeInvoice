@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:wanderhome/models/client_model.dart';
+import 'package:billsnap/models/client_model.dart';
 
 class ClientCard extends StatelessWidget {
   final Client client;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanderhome/services/invoice_service.dart';
-import 'package:wanderhome/services/sample_data_service.dart';
-import 'package:wanderhome/models/invoice_model.dart';
+import 'package:billsnap/services/invoice_service.dart';
+import 'package:billsnap/services/sample_data_service.dart';
+import 'package:billsnap/models/invoice_model.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
