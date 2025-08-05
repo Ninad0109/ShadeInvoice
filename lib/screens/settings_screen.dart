@@ -289,8 +289,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Navigator.pop(context);
               _clearAllData();
             },
-            child: const Text('Clear'),
             style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+            child: const Text('Clear'),
           ),
         ],
       ),

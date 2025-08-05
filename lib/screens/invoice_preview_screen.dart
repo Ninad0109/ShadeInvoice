@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:shadeinvoice/models/invoice_model.dart';
 import 'package:shadeinvoice/services/invoice_service.dart';
@@ -13,7 +16,42 @@ class InvoicePreviewScreen extends StatelessWidget {
     super.key,
     required this.invoice,
   });
+   Future<void> _exportAndSavePdf(BuildContext context) async {
+      try {
+        final List<int> pdfBytes = await ExportService.generatePdfInvoice(invoice);
+        final Directory? directory = await getDownloadsDirectory();
 
+        if (directory == null) {
+          // ... handle error ...
+          return;
+        }
+
+        final String fileName = 'Invoice_${invoice.invoiceNumber.replaceAll(RegExp(r'[^\w\s]+'), '_')}.pdf';
+        final String filePath = '${directory.path}/$fileName';
+        final File file = File(filePath);
+        await file.writeAsBytes(pdfBytes, flush: true);
+
+        // ... show SnackBar, optionally open file ...
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('PDF saved to: $filePath'),
+            action: SnackBarAction(
+              label: 'OPEN',
+              onPressed: () {
+                OpenFile.open(filePath);
+              },
+            ),
+          ),
+        );
+
+      } catch (e) {
+        // ... handle error ...
+        print('Error exporting PDF: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error exporting PDF: $e')),
+        );
+      }
+    }
   @override
   Widget build(BuildContext context) {
     final dateFormat = DateFormat('MMM dd, yyyy');
@@ -24,8 +62,11 @@ class InvoicePreviewScreen extends StatelessWidget {
         title: Text(invoice.invoiceNumber),
         actions: [
           PopupMenuButton<String>(
-            onSelected: (value) {
+            onSelected: (value) async{
               switch (value) {
+                case 'export_pdf':
+                  await _exportAndSavePdf(context);
+                  break;
                 case 'export_text':
                   _exportAsText(context);
                   break;
@@ -46,6 +87,13 @@ class InvoicePreviewScreen extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(Icons.text_snippet),
                   title: Text('Export as Text'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'export_pdf',
+                child: ListTile(
+                  leading: Icon(Icons.picture_as_pdf),
+                  title: Text('Export as PDF'),
                 ),
               ),
               const PopupMenuItem(

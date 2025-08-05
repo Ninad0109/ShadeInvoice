@@ -42,13 +42,13 @@ class ExportService {
     // Items
     buffer.writeln('SERVICES:');
     buffer.writeln('Description\t\t\tQty\tRate\tAmount');
-    buffer.writeln('${'-' * 60}');
+    buffer.writeln('-' * 60);
     
     for (final item in invoice.items) {
       buffer.writeln('${item.description}\t\t\t${item.quantity}\t${currencyFormat.format(item.unitPrice)}\t${currencyFormat.format(item.totalPrice)}');
     }
     
-    buffer.writeln('${'-' * 60}');
+    buffer.writeln('-' * 60);
     buffer.writeln('TOTAL: ${currencyFormat.format(invoice.total)}');
     buffer.writeln('');
     
@@ -69,7 +69,7 @@ class ExportService {
     return buffer.toString();
   }
 
-  static Future<pw.Document> generatePdfInvoice(Invoice invoice) async {
+  static Future <List<int>> generatePdfInvoice(Invoice invoice) async {
     final pdf = pw.Document();
     final dateFormat = DateFormat('MMM dd, yyyy');
     final currencyFormat = NumberFormat.currency(symbol: '\$');
@@ -130,7 +130,7 @@ class ExportService {
             pw.SizedBox(height: 20),
 
             // Items table
-            pw.Table.fromTextArray(
+            pw.TableHelper.fromTextArray(
               headers: ['Description', 'Qty', 'Rate', 'Amount'],
               data: invoice.items.map((item) => [
                 item.description,
@@ -175,7 +175,6 @@ class ExportService {
         ),
       ),
     );
-
-    return pdf;
+    return pdf.save();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:shadeinvoice/models/invoice_model.dart';
 import 'package:shadeinvoice/services/invoice_service.dart';
 import 'package:shadeinvoice/screens/create_invoice_screen.dart';
