@@ -178,14 +178,19 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               // Client Selection
               Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(left: 11, right: 11, bottom: 12, top: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Client Information', style: Theme.of(context).textTheme.titleLarge),
+                          Expanded(
+                            child: Text(
+                              'Client Information',
+                              style: Theme.of(context).textTheme.titleLarge,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                           TextButton.icon(
                             onPressed: () => _showClientSelector(context),
                             icon: const Icon(Icons.person_search),
@@ -249,7 +254,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               // Invoice Details
               Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(left: 11, right: 11, bottom: 12, top: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -314,7 +319,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               // Items
               Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(left: 11, right: 11, bottom: 12, top:16 ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -361,7 +366,7 @@ class _CreateInvoiceScreenState extends State<CreateInvoiceScreen> {
               // Notes
               Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(left: 11, right: 11, bottom: 12, top: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
