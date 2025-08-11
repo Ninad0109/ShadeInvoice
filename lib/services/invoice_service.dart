@@ -11,11 +11,23 @@ class InvoiceService extends ChangeNotifier {
   List<Invoice> get invoices => _invoices;
   List<Client> get clients => _clients;
   Map<String, String> get companyInfo => _companyInfo;
-
+  void _updateAllInvoiceStatuses() {
+    final now = DateTime.now();
+    for (int i = 0; i < _invoices.length; i++) {
+      Invoice invoice = _invoices[i];
+      if (invoice.status != InvoiceStatus.paid && invoice.status != InvoiceStatus.draft) {
+        if (invoice.dueDate.isBefore(now) && invoice.status != InvoiceStatus.overdue) {
+          _invoices[i] = invoice.copyWith(status: InvoiceStatus.overdue);
+          // OR: invoice.status = InvoiceStatus.overdue;
+        }
+      }
+    }
+  }
   Future<void> loadData() async {
     _invoices = await LocalStorageService.loadInvoices();
     _clients = await LocalStorageService.loadClients();
     _companyInfo = await LocalStorageService.loadCompanyInfo();
+    _updateAllInvoiceStatuses();
     notifyListeners();
   }
 
