@@ -1,8 +1,12 @@
+import 'dart:io'; // Import for File
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart'; // Import image_picker
 import 'package:shadeinvoice/services/invoice_service.dart';
 import 'package:shadeinvoice/services/sample_data_service.dart';
 import 'package:shadeinvoice/models/invoice_model.dart';
+import 'package:path_provider/path_provider.dart'; // For saving the image path
+import 'package:path/path.dart' as p; // For path manipulation
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -18,18 +22,81 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _companyEmailController = TextEditingController();
   final _companyPhoneController = TextEditingController();
 
+  File? _loadImageFile;
+  String? _savedLogoPath;
+
   @override
   void initState() {
     super.initState();
     _loadCompanyInfo();
+    _loadCompanyLogo();
   }
 
   void _loadCompanyInfo() {
-    final companyInfo = context.read<InvoiceService>().companyInfo;
+    final companyInfo = context
+        .read<InvoiceService>()
+        .companyInfo;
     _companyNameController.text = companyInfo['name'] ?? '';
     _companyAddressController.text = companyInfo['address'] ?? '';
     _companyEmailController.text = companyInfo['email'] ?? '';
     _companyPhoneController.text = companyInfo['phone'] ?? '';
+  }
+
+  Future<void> _loadCompanyLogo() async {
+    final companyInfo = context
+        .read<InvoiceService>()
+        .companyInfo;
+    final logoPath = companyInfo['logoPath'] as String?;
+    if (logoPath != null && logoPath.isNotEmpty) {
+      setState(() {
+        _savedLogoPath = logoPath;
+        _loadImageFile =
+            File(logoPath); // Load image for preview if path exists
+      });
+    }
+  }
+
+  Future<void> _pickLogo() async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      final XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80, // Optional: for some basic compression
+        maxWidth: 500, // Optional: for basic resizing
+        maxHeight: 500, // Optional: for basic resizing
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _loadImageFile = File(pickedFile.path);
+          _savedLogoPath =
+          null; // Clear saved path if new image is picked but not yet saved
+        });
+        // You don't "upload" in the traditional sense here yet.
+        // The image is selected and shown in preview.
+        // Saving happens with "_saveCompanyInfo"
+      }
+    } catch (e, stackTrace) { // You can also catch the stackTrace for more detailed logs
+      print('DEBUG: Error picking image: $e');
+      print('DEBUG: Stack trace: $stackTrace'); // This is very helpful for complex errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error picking image. Please try again.')), // Keep user message simpler
+      );
+    }
+  }
+
+  Future<String?> _saveLogoToFile(File imageFile) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final fileName = 'company_logo${p.extension(
+          imageFile.path)}'; // e.g., company_logo.png
+      final newPath = p.join(directory.path, fileName);
+      final newFile = await imageFile.copy(newPath);
+      return newFile.path;
+    } catch (e) {
+      print('Error saving logo: $e');
+      return null;
+    }
   }
 
   @override
@@ -57,7 +124,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         children: [
                           Text(
                             'Company Information',
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleLarge,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -67,7 +137,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               border: OutlineInputBorder(),
                               prefixIcon: Icon(Icons.business),
                             ),
-                            validator: (value) => value?.isEmpty ?? true ? 'Please enter company name' : null,
+                            validator: (value) =>
+                            value?.isEmpty ?? true
+                                ? 'Please enter company name'
+                                : null,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -78,7 +151,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               prefixIcon: Icon(Icons.location_on),
                             ),
                             maxLines: 3,
-                            validator: (value) => value?.isEmpty ?? true ? 'Please enter address' : null,
+                            validator: (value) =>
+                            value?.isEmpty ?? true
+                                ? 'Please enter address'
+                                : null,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -89,7 +165,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               prefixIcon: Icon(Icons.email),
                             ),
                             keyboardType: TextInputType.emailAddress,
-                            validator: (value) => value?.isEmpty ?? true ? 'Please enter email' : null,
+                            validator: (value) =>
+                            value?.isEmpty ?? true
+                                ? 'Please enter email'
+                                : null,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -100,9 +179,81 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               prefixIcon: Icon(Icons.phone),
                             ),
                             keyboardType: TextInputType.phone,
-                            validator: (value) => value?.isEmpty ?? true ? 'Please enter phone number' : null,
+                            validator: (value) =>
+                            value?.isEmpty ?? true
+                                ? 'Please enter phone number'
+                                : null,
                           ),
                           const SizedBox(height: 24),
+                          Text(
+                            'Company Logo (optional)',
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleMedium,
+                          ),
+                          const SizedBox(height: 8),
+                          Center( // Center the preview and button
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 150,
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: _loadImageFile != null
+                                      ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.file(
+                                      _loadImageFile!,
+                                      fit: BoxFit
+                                          .contain, // Use contain to show whole image
+                                    ),
+                                  )
+                                      : const Center(
+                                    child: Icon(
+                                      Icons.image_outlined,
+                                      size: 50,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                OutlinedButton.icon(
+                                  onPressed: _pickLogo,
+                                  icon: const Icon(Icons.upload_file),
+                                  label: const Text('Select Logo'),
+                                ),
+                                if (_loadImageFile != null &&
+                                    _savedLogoPath == null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      'Preview. Save changes to apply.',
+                                      style: TextStyle(color: Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .primary),
+                                    ),
+                                  ),
+                                if (_savedLogoPath != null &&
+                                    _loadImageFile != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      'Current logo. Select a new one to change.',
+                                      style: TextStyle(color: Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .secondary),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox (height: 24),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
@@ -127,13 +278,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       children: [
                         Text(
                           'Statistics',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleLarge,
                         ),
                         const SizedBox(height: 16),
-                        _buildStatRow('Total Invoices', '${invoiceService.invoices.length}', Icons.receipt_long),
-                        _buildStatRow('Total Clients', '${invoiceService.clients.length}', Icons.people),
-                        _buildStatRow('Draft Invoices', '${invoiceService.getInvoicesByStatus(InvoiceStatus.draft).length}', Icons.edit_document),
-                        _buildStatRow('Paid Invoices', '${invoiceService.getInvoicesByStatus(InvoiceStatus.paid).length}', Icons.check_circle),
+                        _buildStatRow('Total Invoices', '${invoiceService
+                            .invoices.length}', Icons.receipt_long),
+                        _buildStatRow('Total Clients', '${invoiceService.clients
+                            .length}', Icons.people),
+                        _buildStatRow('Draft Invoices', '${invoiceService
+                            .getInvoicesByStatus(InvoiceStatus.draft)
+                            .length}', Icons.edit_document),
+                        _buildStatRow('Paid Invoices', '${invoiceService
+                            .getInvoicesByStatus(InvoiceStatus.paid)
+                            .length}', Icons.check_circle),
                       ],
                     ),
                   ),
@@ -149,7 +309,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       children: [
                         Text(
                           'App Information',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleLarge,
                         ),
                         const SizedBox(height: 16),
                         ListTile(
@@ -161,7 +324,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ListTile(
                           leading: const Icon(Icons.description),
                           title: const Text('About'),
-                          subtitle: const Text('WanderHome Invoice Generator - Create professional invoices with ease'),
+                          subtitle: const Text(
+                              'WanderHome Invoice Generator - Create professional invoices with ease'),
                           contentPadding: EdgeInsets.zero,
                         ),
                       ],
@@ -179,7 +343,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       children: [
                         Text(
                           'Data Management',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleLarge,
                         ),
                         const SizedBox(height: 16),
                         SizedBox(
@@ -198,7 +365,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             icon: const Icon(Icons.clear_all),
                             label: const Text('Clear All Data'),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: Theme.of(context).colorScheme.error,
+                              foregroundColor: Theme
+                                  .of(context)
+                                  .colorScheme
+                                  .error,
                             ),
                           ),
                         ),
@@ -219,14 +389,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
+          Icon(icon, size: 20, color: Theme
+              .of(context)
+              .colorScheme
+              .primary),
           const SizedBox(width: 12),
           Expanded(child: Text(label)),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .primary,
             ),
           ),
         ],
@@ -234,14 +414,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _saveCompanyInfo() {
+  void _saveCompanyInfo() async {
     if (_formKey.currentState!.validate()) {
+      String? finalLogoPath = _savedLogoPath; // Use existing path if no new image
+
+      // If a new image was picked, save it and get its new path
+      if (_loadImageFile != null &&
+          _savedLogoPath == null) { // Only save if it's a new, unsaved image
+        finalLogoPath = await _saveLogoToFile(_loadImageFile!);
+        if (finalLogoPath != null) {
+          setState(() {
+            _savedLogoPath = finalLogoPath; // Update the saved path state
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to save logo image.')),
+          );
+          return; // Don't proceed if logo saving failed
+        }
+      }
+
       final companyInfo = {
         'name': _companyNameController.text.trim(),
         'address': _companyAddressController.text.trim(),
         'email': _companyEmailController.text.trim(),
         'phone': _companyPhoneController.text.trim(),
+        'logoPath': finalLogoPath ?? '', // Save the path
       };
+
 
       context.read<InvoiceService>().saveCompanyInfo(companyInfo);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -253,47 +453,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showAddSampleDataDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add Sample Data'),
-        content: const Text('This will add sample invoices and clients to help you get started. Continue?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder: (context) =>
+          AlertDialog(
+            title: const Text('Add Sample Data'),
+            content: const Text(
+                'This will add sample invoices and clients to help you get started. Continue?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _addSampleData();
+                },
+                child: const Text('Add'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _addSampleData();
-            },
-            child: const Text('Add'),
-          ),
-        ],
-      ),
     );
   }
 
   void _showClearDataDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Clear All Data'),
-        content: const Text('This will permanently delete all invoices and clients. This action cannot be undone. Continue?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder: (context) =>
+          AlertDialog(
+            title: const Text('Clear All Data'),
+            content: const Text(
+                'This will permanently delete all invoices and clients. This action cannot be undone. Continue?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _clearAllData();
+                },
+                style: TextButton.styleFrom(foregroundColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .error),
+                child: const Text('Clear'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _clearAllData();
-            },
-            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
-            child: const Text('Clear'),
-          ),
-        ],
-      ),
     );
   }
 
@@ -309,5 +516,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('All data cleared successfully')),
     );
+  }
+
+  @override
+  void dispose() {
+    _companyNameController.dispose();
+    _companyAddressController.dispose();
+    _companyEmailController.dispose();
+    _companyPhoneController.dispose();
+    super.dispose();
   }
 }

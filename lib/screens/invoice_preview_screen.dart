@@ -92,7 +92,7 @@ class InvoicePreviewScreen extends StatelessWidget {
               const PopupMenuItem(
                 value: 'export_pdf',
                 child: ListTile(
-                  leading: Icon(Icons.picture_as_pdf),
+                  leading: Icon(Icons.picture_as_pdf_rounded),
                   title: Text('Export as PDF'),
                 ),
               ),
