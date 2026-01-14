@@ -58,6 +58,13 @@
 - [ ] Store Supabase `userId` locally
 - [ ] Handle JWT tokens in Flutter
 - [ ] ❌ No direct DB access from Flutter
+- [ ] Add SyncPolicy (localOnly / cloudSync)
+- [ ] Implement LocalInvoiceRepository (Hive)
+- [ ] Implement CloudInvoiceRepository (API-based)
+- [ ] Queue-based sync for premium users
+- [ ] Backend subscription enforcement
+- [ ] Device sync on login
+- [ ] Last-write-wins conflict resolution
 
 ---
 
