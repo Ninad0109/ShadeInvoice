@@ -2,8 +2,6 @@
 
 > **Goal:** Build an offline-first, secure, scalable invoice platform that can grow into a SaaS without rewrites.
 
-> **Team Context:** 3-4 friends learning Java together, preparing for internships. Strategic choice: Java Spring Boot for learning + resume building (favored by Indian tech companies).
-
 ---
 
 ## 🧭 Phase 0 – Team Alignment (DO FIRST)
@@ -18,7 +16,7 @@
 
 ---
 
-## 🎯 Phase 0.5 – Product Definition (CRITICAL)
+## 🎯 Phase 0.5 – Product Definition (NEW - CRITICAL)
 
 ### Pricing & Tiers
 - [ ] **Free Tier:** 10 invoices/month, basic templates, local storage only
@@ -46,6 +44,8 @@
 - [ ] Separate **local** and **remote** repositories
 - [ ] Ensure **no business logic in UI**
 
+---
+
 ### Invoice Domain Logic
 - [ ] Subtotal calculation
 - [ ] Tax model (name, rate, amount)
@@ -56,7 +56,7 @@
 
 ---
 
-## 🧪 Phase 1.5 – Testing Foundation (ADD THIS)
+## 🧪 Phase 1.5 – Testing Foundation (NEW)
 
 ### Testing Strategy
 - [ ] Unit tests for invoice calculations
@@ -85,12 +85,10 @@
 - [ ] Import JSON → restore data
 - [ ] App-level "Reset Data" option
 - [ ] Add `version` field to models
-- [ ] Validate imported data structure
-- [ ] Handle migration between versions
 
 ---
 
-## 📊 Phase 2.5 – Observability (ADD THIS)
+## 📊 Phase 2.5 – Observability (NEW)
 
 ### Error Tracking
 - [ ] Integrate Sentry for crash reporting
@@ -130,7 +128,7 @@
 
 ---
 
-## 🔒 Phase 3.5 – Security Audit (ADD THIS)
+## 🔒 Phase 3.5 – Security Audit (NEW)
 
 ### Authentication Security
 - [ ] Review JWT implementation
@@ -162,7 +160,6 @@
 - [ ] Supabase JWT verification
 - [ ] Extract user role & subscription tier
 - [ ] Health-check endpoint
-- [ ] API documentation (Swagger/OpenAPI)
 
 ### Backend Responsibilities
 - [ ] Invoice validation
@@ -170,12 +167,10 @@
 - [ ] Feature gating (Free vs Pro)
 - [ ] Secure sync endpoints
 - [ ] Ensure no secrets in Flutter
-- [ ] Implement proper error responses
-- [ ] Add request/response logging
 
 ---
 
-## 💳 Phase 4.5 – Payment POC (MOVED FROM PHASE 6)
+## 💳 Phase 4.5 – Payment POC (NEW - MOVED FROM PHASE 6)
 
 ### Early Payment Integration
 - [ ] Choose Razorpay (Indian market)
@@ -198,32 +193,26 @@
 - [ ] Integrate email provider (SES / SendGrid / Resend)
 - [ ] Send invoice emails
 - [ ] Track email send status
-- [ ] Handle email delivery failures
-- [ ] Add email templates
 
 ---
 
-## 💳 Phase 6 – Full Payment Integration
+## 💳 Phase 6 – Payments
 
-- [ ] Complete Razorpay integration
-- [ ] Generate payment links for invoices
-- [ ] Auto-mark invoice as PAID on success
-- [ ] Handle payment failures
-- [ ] Add payment history tracking
-- [ ] Implement refund handling
-- [ ] Add payment receipts
+- [ ] Choose payment gateway (Stripe / Razorpay)
+- [ ] Generate payment links
+- [ ] Create webhook endpoint
+- [ ] Verify payment signature
+- [ ] Match payment amount with invoice
+- [ ] Auto-mark invoice as PAID
 
 ---
 
 ## 💎 Phase 7 – Subscriptions
 
-- [ ] Implement Free tier limits (10 invoices/month)
-- [ ] Implement Pro tier features (unlimited)
-- [ ] Monthly subscription billing via Razorpay
-- [ ] Grace period handling (3-7 days)
+- [ ] Define Free vs Pro feature limits
+- [ ] Monthly subscription billing
+- [ ] Grace period handling
 - [ ] Feature lock on subscription expiry
-- [ ] Subscription renewal reminders
-- [ ] Handle subscription cancellations
 
 ---
 
@@ -234,8 +223,6 @@
 - [ ] Moderation logic
 - [ ] Ranking / popularity system
 - [ ] Template preview rendering
-- [ ] User-submitted templates
-- [ ] Template categories
 
 ---
 
@@ -245,8 +232,6 @@
 - [ ] Extract usage patterns
 - [ ] AI-generated suggestions (read-only)
 - [ ] Require user approval before applying
-- [ ] Smart invoice item suggestions
-- [ ] Automated client categorization
 
 ---
 
@@ -257,45 +242,6 @@
 - [ ] No secrets on the client
 - [ ] No "quick hacks"
 - [ ] One feature at a time
-- [ ] Write tests for new features
-- [ ] Document complex logic
-- [ ] Review code before merging
-
----
-
-## 🎯 Execution Order Summary
-
-```
-Phase 0: Team Alignment
-Phase 0.5: Product Definition ← DEFINE PRICING FIRST
-Phase 1: Core Foundation (Hive, UUIDs, domain logic)
-Phase 1.5: Testing Foundation ← QUALITY GATES
-Phase 2: Backup & Safety
-Phase 2.5: Observability ← MONITORING
-Phase 3: Supabase Auth + Sync
-Phase 3.5: Security Audit ← SECURITY REVIEW
-Phase 4: Java Backend (Spring Boot)
-Phase 4.5: Payment POC ← TEST EARLY
-Phase 5: Email & PDF
-Phase 6: Full Payment Integration
-Phase 7: Subscriptions
-Phase 8: Community Templates
-Phase 9: AI Features
-```
-
----
-
-## 💼 Interview Talking Points
-
-This project demonstrates:
-- ✅ **Microservices Architecture** (Flutter + Java Backend + Supabase)
-- ✅ **Offline-First Design** (Repository pattern, sync queues)
-- ✅ **Payment Gateway Integration** (Razorpay webhooks)
-- ✅ **Spring Boot REST APIs** (JWT auth, feature gating)
-- ✅ **Database Design** (Supabase PostgreSQL)
-- ✅ **Mobile Development** (Flutter cross-platform)
-- ✅ **Testing & CI/CD** (Unit tests, GitHub Actions)
-- ✅ **Security Best Practices** (No client secrets, JWT validation)
 
 ---
 
@@ -305,29 +251,6 @@ This project demonstrates:
 
 ---
 
-## 🚀 Why This Approach?
-
-### Java Spring Boot Choice
-- Learning Java this semester (team skill development)
-- Preparing for internships (Java favored by TCS, Infosys, Wipro, Accenture)
-- Real project experience > toy projects
-- Industry-standard tech stack
-
-### Supabase Choice
-- All-in-one: Auth + Database + Storage
-- Developer-friendly, modern
-- Cost-effective for startups
-- Easy to scale
-
-### Offline-First Philosophy
-- Works without internet (critical for invoicing)
-- Better user experience
-- Respects user privacy
-- Matches apps like Notion, Todoist
-
----
-
 ✅ Follow this checklist sequentially.  
 ❌ Do not skip phases.  
-🚀 Build slow, build right.  
-💎 This is your portfolio piece for internships.
+🚀 Build slow, build right.
