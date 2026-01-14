@@ -16,21 +16,6 @@
 
 ---
 
-## 🎯 Phase 0.5 – Product Definition (NEW - CRITICAL)
-
-### Pricing & Tiers
-- [ ] **Free Tier:** 10 invoices/month, basic templates, local storage only
-- [ ] **Pro Tier:** Unlimited invoices, email sending, custom templates, cloud sync
-- [ ] **Pricing:** ₹299-499/month (Indian market)
-- [ ] **Target Market:** Freelancers and small businesses in India
-
-### Feature Gating Strategy
-- [ ] Document which features are Free vs Pro
-- [ ] Define upgrade prompts and messaging
-- [ ] Plan trial period (7-14 days free Pro access)
-
----
-
 ## 🧱 Phase 1 – Core Foundation (HIGH PRIORITY)
 
 ### Data & Architecture
@@ -56,57 +41,12 @@
 
 ---
 
-## 🧪 Phase 1.5 – Testing Foundation (NEW)
-
-### Testing Strategy
-- [ ] Unit tests for invoice calculations
-- [ ] Unit tests for domain logic (tax, discount, totals)
-- [ ] Widget tests for critical user flows
-- [ ] Test invoice status transitions
-- [ ] Test data validation logic
-
-### CI/CD Pipeline
-- [ ] Set up GitHub Actions workflow
-- [ ] Run tests on every PR
-- [ ] Code coverage reporting (target 80%)
-- [ ] Enforce linting rules
-- [ ] Automated build checks
-
-### Quality Gates
-- [ ] Require tests for new features
-- [ ] Block PRs with failing tests
-- [ ] Review test coverage in PRs
-
----
-
 ## 💾 Phase 2 – Backup & Safety
 
 - [ ] Export all app data → JSON file
 - [ ] Import JSON → restore data
 - [ ] App-level "Reset Data" option
 - [ ] Add `version` field to models
-
----
-
-## 📊 Phase 2.5 – Observability (NEW)
-
-### Error Tracking
-- [ ] Integrate Sentry for crash reporting
-- [ ] Set up error alerts
-- [ ] Track critical user flows
-- [ ] Monitor app performance metrics
-
-### Logging Strategy
-- [ ] Implement structured logging in backend
-- [ ] Log all API requests/responses
-- [ ] Track sync operations
-- [ ] Monitor payment transactions
-
-### Health Monitoring
-- [ ] Backend health check endpoint
-- [ ] Database connection monitoring
-- [ ] API response time tracking
-- [ ] Set up uptime monitoring
 
 ---
 
@@ -128,31 +68,6 @@
 
 ---
 
-## 🔒 Phase 3.5 – Security Audit (NEW)
-
-### Authentication Security
-- [ ] Review JWT implementation
-- [ ] Test token expiration handling
-- [ ] Validate refresh token flow
-- [ ] Test auth edge cases (expired, invalid tokens)
-- [ ] Implement rate limiting on auth endpoints
-
-### API Security
-- [ ] Validate all API inputs
-- [ ] Check for SQL injection risks
-- [ ] Test authorization on all endpoints
-- [ ] Implement request rate limiting
-- [ ] Review CORS configuration
-
-### Data Security
-- [ ] Review data encryption at rest
-- [ ] Validate secure data transmission (HTTPS)
-- [ ] Check for sensitive data in logs
-- [ ] Review file upload security
-- [ ] Test for common vulnerabilities (OWASP Top 10)
-
----
-
 ## 🧠 Phase 4 – Java Backend (Core Logic)
 
 ### Backend Setup
@@ -167,22 +82,6 @@
 - [ ] Feature gating (Free vs Pro)
 - [ ] Secure sync endpoints
 - [ ] Ensure no secrets in Flutter
-
----
-
-## 💳 Phase 4.5 – Payment POC (NEW - MOVED FROM PHASE 6)
-
-### Early Payment Integration
-- [ ] Choose Razorpay (Indian market)
-- [ ] Set up test account
-- [ ] Create basic payment link generation
-- [ ] Implement webhook endpoint
-- [ ] Test webhook signature verification
-- [ ] Validate payment amount matching
-- [ ] Test with small amounts (₹1-10)
-- [ ] Document payment flow
-
-**Why Early:** Payment integration is complex. Test early to identify issues before building features on top.
 
 ---
 
